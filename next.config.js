@@ -1,16 +1,11 @@
 /** @type {import('next').NextConfig} */
-// Trigger redeploy
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    staticPageGenerationTimeout: 180, // Extend timeout to 180 seconds
+    appDir: true
   },
   async rewrites() {
     return []
-  },
-  // Adding custom server configuration
-  server: {
-    port: 3001, // New port number
   }
 }
 
