@@ -5,7 +5,20 @@ import { motion } from 'framer-motion'
 import { FileText, LightbulbIcon, Settings, Shield } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const categories = [
+type Category = 'iam' | 'grc' | 'ea'
+
+interface Phase {
+  icon: any;
+  title: string;
+  description: string;
+  tags: {
+    iam: string[];
+    grc: string[];
+    ea: string[];
+  };
+}
+
+const categories: { id: Category; name: string; color: string }[] = [
   {
     id: 'iam',
     name: 'Identity & Access Management',
@@ -23,7 +36,7 @@ const categories = [
   }
 ]
 
-const deliveryProcess = [
+const deliveryProcess: Phase[] = [
   {
     icon: FileText,
     title: "Pre-Sales",
@@ -67,7 +80,7 @@ const deliveryProcess = [
 ]
 
 export default function ExpertiseSection() {
-  const [activeCategory, setActiveCategory] = useState('iam')
+  const [activeCategory, setActiveCategory] = useState<Category>('iam')
 
   return (
     <section id="expertise" className="py-16 sm:py-24 bg-[#0B1221] text-white px-4 sm:px-6 lg:px-8">
@@ -129,4 +142,3 @@ export default function ExpertiseSection() {
     </section>
   )
 }
-
