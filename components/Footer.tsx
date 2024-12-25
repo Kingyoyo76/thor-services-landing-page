@@ -8,7 +8,7 @@ import { Linkedin, Twitter } from 'lucide-react'
 
 export default function Footer() {
   const handleComingSoon = (item: string) => {
-    toast(`${item} coming soon!`, {
+    toast.info(`${item}`, {
       description: 'This feature is currently under development.'
     })
   }

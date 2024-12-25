@@ -36,8 +36,8 @@ export default function CTASection() {
       })
 
       if (response.ok) {
-        toast('Success!', {
-          description: 'Your message has been sent successfully.'
+        toast.success('Form submitted successfully', {
+          description: 'Thank you! We\'ll be in touch shortly.'
         })
         setFormData({
           firstname: '',
@@ -49,15 +49,13 @@ export default function CTASection() {
         })
         setShowForm(false)
       } else {
-        toast('Error', {
-          description: 'Failed to submit form. Please try again later.',
-          variant: 'destructive'
+        toast.error('Failed to submit form', {
+          description: 'Please try again later.'
         })
       }
     } catch (error) {
-      toast('Error', {
-        description: 'Failed to submit form. Please try again later.',
-        variant: 'destructive'
+      toast.error('Failed to submit form', {
+        description: 'Please try again later.'
       })
     } finally {
       setIsSubmitting(false)
