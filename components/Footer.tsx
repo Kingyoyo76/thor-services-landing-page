@@ -10,7 +10,6 @@ export default function Footer() {
   const handleComingSoon = (item: string) => {
     toast(`${item} Coming Soon!`, {
       description: "We're working on something exciting! Check back soon for updates.",
-      duration: 1500,
     })
   }
 
@@ -135,8 +134,7 @@ export default function Footer() {
               background: '#0B1221',
               border: '1px solid #FF3D00',
               color: 'white',
-            },
-            duration: 1500
+            }
           }}
         />
       </div>
