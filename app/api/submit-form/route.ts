@@ -58,17 +58,16 @@ export async function POST(request: Request) {
       message: 'Form submitted successfully',
       data: responseData
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Server error:', error)
     
     return NextResponse.json(
       { 
         success: false,
-        message: error.message || 'Failed to submit form',
-        error: error.stack
+        message: error?.message || 'Failed to submit form',
+        error: error?.stack || 'No stack trace available'
       },
       { status: 500 }
     )
   }
 }
-
