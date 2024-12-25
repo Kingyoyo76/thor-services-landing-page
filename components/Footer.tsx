@@ -8,7 +8,9 @@ import { Linkedin, Twitter } from 'lucide-react'
 
 export default function Footer() {
   const handleComingSoon = (item: string) => {
-    toast.info(`${item} coming soon!`)
+    toast(`${item} coming soon!`, {
+      description: 'This feature is currently under development.'
+    })
   }
 
   const scrollToExpertise = (tab: string) => {

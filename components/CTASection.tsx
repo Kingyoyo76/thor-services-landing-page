@@ -32,23 +32,33 @@ export default function CTASection() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       })
 
-      if (!response.ok) throw new Error('Form submission failed')
-
-      toast.success("Thank you! We'll be in touch shortly.")
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: ''
-      })
-      setShowForm(false)
+      if (response.ok) {
+        toast('Success!', {
+          description: 'Your message has been sent successfully.'
+        })
+        setFormData({
+          firstname: '',
+          lastname: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: ''
+        })
+        setShowForm(false)
+      } else {
+        toast('Error', {
+          description: 'Failed to submit form. Please try again later.',
+          variant: 'destructive'
+        })
+      }
     } catch (error) {
-      toast.error("Failed to submit form. Please try again later.")
+      toast('Error', {
+        description: 'Failed to submit form. Please try again later.',
+        variant: 'destructive'
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -189,4 +199,3 @@ export default function CTASection() {
     </section>
   )
 }
-
