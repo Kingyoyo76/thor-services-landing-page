@@ -32,14 +32,12 @@ const testimonials = [
 ]
 
 export default function TestimonialSection() {
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    // This will only run on the client side
-    return typeof window !== 'undefined' 
-      ? Math.floor(Math.random() * testimonials.length) 
-      : 0
-  })
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
+    // Randomize the initial testimonial after mount
+    setCurrentIndex(Math.floor(Math.random() * testimonials.length))
+
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
     }, 10000) // Change testimonial every 10 seconds
@@ -59,7 +57,7 @@ export default function TestimonialSection() {
     <section className="py-16 sm:py-24 bg-[#0B1221] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 tracking-tight">
-          Trusted by <span className="text-[#FF5722]">Industry Leaders</span>
+          Trusted by <span className="text-[#FF3D00]">Industry Leaders</span>
         </h2>
         <div className="relative bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-lg">
           <AnimatePresence mode="wait">
@@ -100,4 +98,3 @@ export default function TestimonialSection() {
     </section>
   )
 }
-

@@ -45,7 +45,7 @@ export default function ComprehensiveSolutionsSection() {
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 tracking-tight">
           Comprehensive Enterprise Cybersecurity Solutions
         </h2>
-        <p className="text-lg sm:text-xl text-center mb-8 sm:mb-16 max-w-3xl mx-auto text-gray-600 px-4">
+        <p className="text-xl sm:text-2xl text-center mb-8 sm:mb-16 max-w-4xl mx-auto text-gray-600 px-4 leading-relaxed">
           Thor Group delivers tailored, integrated solutions to address your most 
           complex IT challenges. Our expertise spans across critical domains to 
           secure, optimize, and empower your business.

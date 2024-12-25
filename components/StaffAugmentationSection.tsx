@@ -56,7 +56,7 @@ export default function StaffAugmentationSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
             >
-              <benefit.icon className="w-12 h-12 text-[#FF5722] mb-4" />
+              <benefit.icon className="w-12 h-12 text-[#FF3D00] mb-4" />
               <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
               <p className="text-gray-600">{benefit.description}</p>
             </motion.div>
@@ -73,7 +73,7 @@ export default function StaffAugmentationSection() {
           <div className="grid grid-cols-3 gap-4">
             {outcomes.map((outcome, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-[#FF5722] mb-2">{outcome.value}</div>
+                <div className="text-4xl font-bold text-[#FF3D00] mb-2">{outcome.value}</div>
                 <div className="text-sm">{outcome.label}</div>
               </div>
             ))}
@@ -89,15 +89,14 @@ export default function StaffAugmentationSection() {
           <h3 className="text-2xl font-bold mb-4">Ready to Amplify Your IT Capabilities?</h3>
           <Button 
             size="lg" 
-            className="w-full sm:w-auto bg-[#FF5722] hover:bg-[#E64A19] text-white"
+            className="w-full sm:w-auto bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white rounded-full text-lg sm:text-xl py-6 px-8 sm:px-12 font-bold transform hover:scale-105 transition-all duration-300"
             onClick={() => {
               const element = document.getElementById('contact')
               if (element) {
                 const offset = 80 // Account for fixed header
-                const elementPosition = element.getBoundingClientRect().top
-                const offsetPosition = elementPosition + window.pageYOffset - offset
+                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
                 window.scrollTo({
-                  top: offsetPosition,
+                  top: elementPosition - offset,
                   behavior: 'smooth'
                 })
               }
@@ -110,4 +109,3 @@ export default function StaffAugmentationSection() {
     </section>
   )
 }
-

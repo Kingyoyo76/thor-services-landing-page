@@ -1,5 +1,6 @@
+'use client'
+
 import '@/styles/globals.css'
-import { Toaster } from 'sonner'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 
@@ -21,7 +22,6 @@ export default function RootLayout({
         <main className="relative flex min-h-screen flex-col">
           {children}
         </main>
-        <Toaster position="top-center" />
         
         {/* HubSpot Tracking Code */}
         <Script

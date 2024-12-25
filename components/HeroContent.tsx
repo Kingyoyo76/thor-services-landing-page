@@ -29,7 +29,7 @@ export default function HeroContent() {
       transition={{ duration: 0.8 }}
       className="mb-8"
     >
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
         <span className="block">Supercharge Your</span>
         <motion.span
           key={currentPhrase}
@@ -37,22 +37,26 @@ export default function HeroContent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -20, opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-[#FF4B11] flex items-center justify-center"
+          className="text-[#FF4B11] flex items-center justify-center gap-2"
         >
           {phrases[currentPhrase].text}
-          <CurrentIcon className="ml-4 w-8 h-8" />
+          <CurrentIcon className="w-8 h-8" />
         </motion.span>
       </h2>
-      <ul className="text-xl space-y-2 mt-4">
-        <li className="flex items-center justify-center">
-          <ChevronRight className="text-[#FF4B11] mr-2" /> Expand your IT team
+      <ul className="text-xl sm:text-2xl font-semibold space-y-3 mt-6">
+        <li className="flex items-center justify-center gap-2">
+          <ChevronRight className="text-[#FF4B11] w-6 h-6 flex-shrink-0" /> 
+          <span className="text-center">Expand your IT team</span>
         </li>
-        <li className="flex items-center justify-center">
-          <ChevronRight className="text-[#FF4B11] mr-2" /> Accelerate project
-          delivery and implementations
+        <li className="flex items-center justify-center gap-2">
+          <ChevronRight className="text-[#FF4B11] w-6 h-6 flex-shrink-0" /> 
+          <span className="text-center">Accelerate project delivery</span>
+        </li>
+        <li className="flex items-center justify-center gap-2">
+          <ChevronRight className="text-[#FF4B11] w-6 h-6 flex-shrink-0" /> 
+          <span className="text-center">Reduce operational costs</span>
         </li>
       </ul>
     </motion.div>
   );
 }
-

@@ -22,7 +22,7 @@ const categories: { id: Category; name: string; color: string }[] = [
   {
     id: 'iam',
     name: 'Identity & Access Management',
-    color: '#FF5722'
+    color: '#FF3D00'
   },
   {
     id: 'grc',
@@ -86,7 +86,7 @@ export default function AreasOfExpertiseSection() {
     <section className="py-24 bg-[#0B1221] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-5xl md:text-6xl font-bold text-center mb-16">
-          Areas of <span className="text-[#FF5722]">Expertise</span>
+          Areas of <span className="text-[#FF3D00]">Expertise</span>
         </h2>
 
         {/* Category Selection */}
@@ -96,11 +96,12 @@ export default function AreasOfExpertiseSection() {
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
               className={cn(
-                "px-6 py-3 rounded-full text-sm md:text-base transition-all duration-300",
+                "px-6 py-4 rounded-full text-lg sm:text-xl md:text-2xl font-black leading-tight",
                 activeCategory === category.id
-                  ? "bg-[#FF5722] text-white"
+                  ? "bg-[#FF3D00] text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
               )}
+              style={{ fontWeight: 900 }}  // Maximum possible weight
             >
               {category.name}
             </button>
@@ -117,18 +118,18 @@ export default function AreasOfExpertiseSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-[#FF5722]/10 flex items-center justify-center mb-4">
-                <phase.icon className="w-8 h-8 text-[#FF5722]" />
+              <div className="w-16 h-16 rounded-full bg-[#FF3D00]/10 flex items-center justify-center mb-4">
+                <phase.icon className="w-8 h-8 text-[#FF3D00]" />
               </div>
               
-              <h3 className="text-xl font-bold mb-2">{phase.title}</h3>
-              <p className="text-gray-400 mb-6">{phase.description}</p>
+              <h3 className="text-xl sm:text-2xl font-black mb-2">{phase.title}</h3>
+              <p className="text-base sm:text-lg text-gray-400 mb-6">{phase.description}</p>
               
               <div className="space-y-2">
                 {phase.tags[activeCategory].map((tag, idx) => (
                   <span
                     key={idx}
-                    className="inline-block px-3 py-1 rounded-full text-sm bg-[#2D3748] text-gray-300 m-1"
+                    className="inline-block px-3 py-1.5 rounded-full text-base sm:text-lg bg-[#2D3748] text-gray-300 m-1 font-bold"
                   >
                     {tag}
                   </span>

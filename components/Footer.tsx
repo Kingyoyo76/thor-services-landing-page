@@ -3,13 +3,14 @@
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import { Linkedin, Twitter } from 'lucide-react'
 
 export default function Footer() {
   const handleComingSoon = (item: string) => {
-    toast(`${item}`, {
-      description: 'This feature is currently under development.'
+    toast(`${item} Coming Soon!`, {
+      description: "We're working on something exciting! Check back soon for updates.",
+      duration: 1500,
     })
   }
 
@@ -126,6 +127,18 @@ export default function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-800 text-center">
           <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} Thor IT Services. All rights reserved.</p>
         </div>
+        <Toaster 
+          theme="dark"
+          position="top-center"
+          toastOptions={{
+            style: { 
+              background: '#0B1221',
+              border: '1px solid #FF3D00',
+              color: 'white',
+            },
+            duration: 1500
+          }}
+        />
       </div>
     </footer>
   )

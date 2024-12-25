@@ -24,7 +24,7 @@ export default function Navigation() {
                   viewBox="0 0 24 32"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-8 text-[#FF4B11]"
+                  className="w-6 h-8 text-[#FF3D00]"
                 >
                   <path
                     d="M6 8h12v4H6z M11 12v16 M11 16h2v2h-2z M11 20h2v2h-2z M11 24h2v2h-2z"
@@ -42,7 +42,7 @@ export default function Navigation() {
                   viewBox="0 0 24 32"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-8 text-[#FF4B11]"
+                  className="w-6 h-8 text-[#FF3D00]"
                 >
                   <path
                     d="M6 8h12v4H6z M11 12v16 M11 16h2v2h-2z M11 20h2v2h-2z M11 24h2v2h-2z"
@@ -73,8 +73,8 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#0B1221] py-4">
-          <div className="px-4 space-y-4">
+        <div className="md:hidden bg-[#0B1221] border-t border-gray-800">
+          <div className="px-6 py-4 space-y-2">
             <NavigationMenu />
           </div>
         </div>

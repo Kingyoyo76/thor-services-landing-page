@@ -22,7 +22,7 @@ const categories: { id: Category; name: string; color: string }[] = [
   {
     id: 'iam',
     name: 'Identity & Access Management',
-    color: '#FF5722'
+    color: '#FF3D00'
   },
   {
     id: 'grc',
@@ -85,8 +85,8 @@ export default function ExpertiseSection() {
   return (
     <section id="expertise" className="py-16 sm:py-24 bg-[#0B1221] text-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-8 sm:mb-16 tracking-tight">
-          Areas of <span className="text-[#FF5722]">Expertise</span>
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-center mb-8 sm:mb-16 tracking-tight">
+          Areas of <span className="text-[#FF3D00] font-black">Expertise</span>
         </h2>
 
         {/* Category Selection */}
@@ -97,11 +97,12 @@ export default function ExpertiseSection() {
               onClick={() => setActiveCategory(category.id)}
               data-tab={category.id}
               className={cn(
-                "px-3 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm md:text-base transition-all duration-300",
+                "px-4 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg md:text-xl font-black transition-all duration-300",
                 activeCategory === category.id
-                  ? "bg-[#FF5722] text-white"
+                  ? "bg-[#FF3D00] text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
               )}
+              style={{ fontWeight: 900 }}
             >
               {category.name}
             </button>
@@ -118,8 +119,8 @@ export default function ExpertiseSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-[#FF5722]/10 flex items-center justify-center mb-4">
-                <phase.icon className="w-8 h-8 text-[#FF5722]" />
+              <div className="w-16 h-16 rounded-full bg-[#FF3D00]/10 flex items-center justify-center mb-4">
+                <phase.icon className="w-8 h-8 text-[#FF3D00]" />
               </div>
               
               <h3 className="text-xl font-bold mb-2">{phase.title}</h3>
