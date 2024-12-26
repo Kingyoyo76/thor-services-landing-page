@@ -17,15 +17,22 @@ const NavigationMenu = () => {
     }
   }, [])
 
+  const menuItems = [
+    { id: 'services', label: 'Services' },
+    { id: 'expertise', label: 'Expertise' },
+    { id: 'technologies', label: 'Technologies' },
+    { id: 'final-cta', label: 'Contact' }
+  ]
+
   return (
     <div className="md:flex md:space-x-8">
-      {['services', 'expertise', 'contact'].map((section) => (
+      {menuItems.map((item) => (
         <button
-          key={section}
-          onClick={() => scrollToSection(section)}
+          key={item.id}
+          onClick={() => scrollToSection(item.id)}
           className="block w-full md:w-auto text-left md:text-center text-white hover:text-[#FF3D00] transition-colors font-bold py-2 md:py-0"
         >
-          {section.charAt(0).toUpperCase() + section.slice(1)}
+          {item.label}
         </button>
       ))}
     </div>

@@ -1,7 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Users, Clock, Puzzle, CheckCircle } from 'lucide-react'
+import { Users, Clock, Puzzle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const benefits = [
@@ -22,13 +23,47 @@ const benefits = [
   }
 ]
 
-const outcomes = [
-  { value: "50%", label: "Faster Time-to-Value" },
-  { value: "40%", label: "Project Acceleration" },
-  { value: "30%", label: "Cost Optimization" }
+const techPartners = [
+  { name: 'Splunk', website: 'https://www.splunk.com' },
+  { name: 'Okta', website: 'https://www.okta.com' },
+  { name: 'Ping', website: 'https://www.pingidentity.com' },
+  { name: 'ForgeRock', website: 'https://www.forgerock.com' },
+  { name: 'Crowdstrike', website: 'https://www.crowdstrike.com' },
+  { name: 'SentinelOne', website: 'https://www.sentinelone.com' },
+  { name: 'Saviynt', website: 'https://www.saviynt.com' },
+  { name: 'SailPoint', website: 'https://www.sailpoint.com' },
+  { name: 'CyberArk', website: 'https://www.cyberark.com' },
+  { name: 'BeyondTrust', website: 'https://www.beyondtrust.com' },
+  { name: 'Delinea', website: 'https://www.delinea.com' },
+  { name: 'Imperva', website: 'https://www.imperva.com' },
+  { name: 'Zscaler', website: 'https://www.zscaler.com' },
+  { name: 'Checkred', website: 'https://www.checkred.com' },
+  { name: 'Palo Alto Networks', website: 'https://www.paloaltonetworks.com' },
+  { name: 'Cato Networks', website: 'https://www.catonetworks.com' }
 ]
 
+// Duplicate the array to create a seamless loop
+const extendedPartners = [...techPartners, ...techPartners]
+
+// Split partners into groups of 6
+const partnerGroups = techPartners.reduce((acc, _, i) => {
+  if (i % 6 === 0) {
+    acc.push(techPartners.slice(i, i + 6))
+  }
+  return acc
+}, [] as typeof techPartners[])
+
 export default function StaffAugmentationSection() {
+  const [currentGroupIndex, setCurrentGroupIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentGroupIndex((prev) => (prev + 1) % partnerGroups.length)
+    }, 4000) // Change every 4 seconds
+
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,20 +98,78 @@ export default function StaffAugmentationSection() {
           ))}
         </div>
 
+        {/* Technologies We Support Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-900 text-white p-8 rounded-lg shadow-xl"
+          className="mb-16"
+          id="technologies"
         >
-          <h3 className="text-2xl font-bold mb-6 text-center">Proven Results</h3>
-          <div className="grid grid-cols-3 gap-4">
-            {outcomes.map((outcome, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-[#FF3D00] mb-2">{outcome.value}</div>
-                <div className="text-sm">{outcome.label}</div>
-              </div>
-            ))}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-12">
+            Technologies <span className="text-[#FF3D00]">We Support</span>
+          </h2>
+          
+          <div className="relative overflow-hidden py-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
+            
+            <div className="flex overflow-hidden">
+              <motion.div
+                className="flex gap-12 whitespace-nowrap"
+                animate={{
+                  x: [0, -50 * techPartners.length],
+                }}
+                transition={{
+                  x: {
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {extendedPartners.map((partner, index) => (
+                  <a
+                    key={index}
+                    href={partner.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center group"
+                  >
+                    <span className="text-2xl font-semibold text-gray-600 group-hover:text-[#FF3D00] transition-colors whitespace-nowrap">
+                      {partner.name}
+                    </span>
+                  </a>
+                ))}
+              </motion.div>
+              
+              <motion.div
+                className="flex gap-12 whitespace-nowrap"
+                animate={{
+                  x: [0, -50 * techPartners.length],
+                }}
+                transition={{
+                  x: {
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {extendedPartners.map((partner, index) => (
+                  <a
+                    key={index}
+                    href={partner.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center group"
+                  >
+                    <span className="text-2xl font-semibold text-gray-600 group-hover:text-[#FF3D00] transition-colors whitespace-nowrap">
+                      {partner.name}
+                    </span>
+                  </a>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </motion.div>
 
@@ -84,17 +177,16 @@ export default function StaffAugmentationSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-16 text-center"
+          className="text-center flex justify-center"
         >
-          <h3 className="text-2xl font-bold mb-4">Ready to Amplify Your IT Capabilities?</h3>
           <Button 
             size="lg" 
-            className="w-full sm:w-auto bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white rounded-full text-lg sm:text-xl py-6 px-8 sm:px-12 font-bold transform hover:scale-105 transition-all duration-300"
+            className="bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white rounded-full text-lg sm:text-xl py-6 px-8 sm:px-12 font-bold transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
             onClick={() => {
-              const element = document.getElementById('contact')
-              if (element) {
-                const offset = 80 // Account for fixed header
-                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+              const finalCTA = document.getElementById('final-cta')
+              if (finalCTA) {
+                const offset = 80
+                const elementPosition = finalCTA.getBoundingClientRect().top + window.pageYOffset
                 window.scrollTo({
                   top: elementPosition - offset,
                   behavior: 'smooth'
@@ -102,7 +194,7 @@ export default function StaffAugmentationSection() {
               }
             }}
           >
-            Get Started with Staff Augmentation
+            Ready To Amplify Your IT Capabilities? <Zap className="w-6 h-6 ml-2" />
           </Button>
         </motion.div>
       </div>

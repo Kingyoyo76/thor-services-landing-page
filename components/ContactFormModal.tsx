@@ -3,8 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Modal } from '@/components/ui/modal';
+import { toast } from 'sonner';
 
 interface ContactFormModalProps {
   isOpen: boolean;
@@ -20,6 +22,24 @@ interface FormData {
   message: string;
 }
 
+const HUBSPOT_PORTAL_ID = "48646825";
+const HUBSPOT_FORM_ID = "6a4229cb-ad4a-4040-a18f-42376052b2a4";
+
+const DISALLOWED_EMAIL_DOMAINS = [
+  'gmail.com',
+  'yahoo.com',
+  'hotmail.com',
+  'outlook.com',
+  'aol.com',
+  'mail.com',
+  'protonmail.com',
+  'icloud.com',
+  'me.com',
+  'msn.com',
+  'live.com',
+  'ymail.com'
+];
+
 export default function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
   const [formData, setFormData] = useState<FormData>({
     firstname: '',
@@ -29,52 +49,68 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
     company: '',
     message: ''
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState('');
-  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [ipAddress, setIpAddress] = useState('');
 
-  const blockedDomains = [
-    'gmail.com',
-    'yahoo.com',
-    'hotmail.com',
-    'aol.com',
-    'outlook.com',
-    'icloud.com',
-    'me.com',
-    'mail.com',
-    'protonmail.com',
-    'zoho.com'
-  ];
+  useEffect(() => {
+    // Fetch IP address when component mounts
+    const getIpAddress = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setIpAddress(data.ip);
+      } catch (error) {
+        console.error('Error fetching IP:', error);
+      }
+    };
+
+    getIpAddress();
+  }, []);
 
   const validateEmail = (email: string) => {
-    if (!email) return '';
     const domain = email.split('@')[1]?.toLowerCase();
-    if (domain && blockedDomains.includes(domain)) {
-      return 'Please use your company email address.';
+    if (!domain) return false;
+    
+    if (DISALLOWED_EMAIL_DOMAINS.includes(domain)) {
+      setEmailError('Please use your business email address');
+      return false;
     }
-    return '';
+    
+    setEmailError('');
+    return true;
   };
 
-  const handleEmailChange = (email: string) => {
-    setFormData(prev => ({ ...prev, email }));
-    setEmailError(validateEmail(email));
+  const resetForm = () => {
+    setFormData({
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: ''
+    });
+    setShowThankYou(false);
+    setEmailError('');
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate email before submission
-    const emailValidationError = validateEmail(formData.email);
-    if (emailValidationError) {
-      setEmailError(emailValidationError);
+    if (!validateEmail(formData.email)) {
       return;
     }
 
-    setIsSubmitting(true);
+    setIsLoading(true);
 
     try {
-      const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/48646825/6a4229cb-ad4a-4040-a18f-42376052b2a4', {
+      const response = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -90,150 +126,178 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
           ],
           context: {
             pageUri: window.location.href,
-            pageName: document.title
+            pageName: document.title,
+            ipAddress: ipAddress
+          },
+          legalConsentOptions: {
+            consent: {
+              consentToProcess: true,
+              text: "I agree to allow Thor Services to store and process my personal data."
+            }
           }
         })
       });
 
-      if (response.ok) {
-        setSubmitSuccess(true);
-        setTimeout(() => {
-          onClose();
-          setSubmitSuccess(false);
-          setFormData({
-            firstname: '',
-            lastname: '',
-            email: '',
-            phone: '',
-            company: '',
-            message: ''
-          });
-        }, 2000);
-      } else {
-        throw new Error('Submission failed');
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
       }
+
+      setShowThankYou(true);
+      toast.success('Message sent successfully!');
+      
+      // Clear form data after 3 seconds and close modal
+      setTimeout(() => {
+        handleClose();
+      }, 3000);
+      
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error('Failed to send message. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
-  if (!isOpen) return null;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
 
-  if (submitSuccess) {
+    if (name === 'email') {
+      validateEmail(value);
+    }
+  };
+
+  if (showThankYou) {
     return (
-      <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg w-full max-w-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-green-600 mb-4">Thank You!</h2>
-          <p>We'll be in touch shortly.</p>
+      <Modal
+        title="Thank You!"
+        description="We've received your message and will get back to you shortly."
+        isOpen={isOpen}
+        onClose={handleClose}
+      >
+        <div className="flex flex-col items-center justify-center py-8">
+          <p className="text-lg text-center mb-6">
+            Thank you for reaching out! Our team will contact you within the next 24-48 hours.
+          </p>
+          <Button
+            onClick={handleClose}
+            className="bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white"
+          >
+            Close
+          </Button>
         </div>
-      </div>
+      </Modal>
     );
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-lg p-8 relative">
-        <Button
-          variant="ghost"
-          className="absolute top-4 right-4 hover:bg-gray-100 rounded-full p-2"
-          onClick={onClose}
-        >
-          ✕
-        </Button>
-        
-        <h2 className="text-2xl font-bold mb-8 text-center">Contact Us</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="firstname">First Name *</Label>
-              <Input
-                id="firstname"
-                value={formData.firstname}
-                onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
-                required
-                className="w-full"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastname">Last Name *</Label>
-              <Input
-                id="lastname"
-                value={formData.lastname}
-                onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
-                required
-                className="w-full"
-              />
-            </div>
-          </div>
-
+    <Modal
+      title="Contact Us"
+      description="Fill out the form below and we'll get back to you as soon as possible."
+      isOpen={isOpen}
+      onClose={handleClose}
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Work Email *</Label>
+            <Label htmlFor="firstname">First Name</Label>
             <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              id="firstname"
+              name="firstname"
+              placeholder="John"
+              value={formData.firstname}
+              onChange={handleChange}
               required
-              className={`w-full ${emailError ? 'border-red-500' : ''}`}
             />
-            {emailError && (
-              <p className="text-red-500 text-sm mt-1">{emailError}</p>
-            )}
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number *</Label>
+            <Label htmlFor="lastname">Last Name</Label>
             <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              id="lastname"
+              name="lastname"
+              placeholder="Doe"
+              value={formData.lastname}
+              onChange={handleChange}
               required
-              className="w-full"
             />
           </div>
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="company">Company Name *</Label>
-            <Input
-              id="company"
-              value={formData.company}
-              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-              required
-              className="w-full"
-            />
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">Business Email</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="john.doe@company.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={emailError ? 'border-red-500' : ''}
+          />
+          {emailError && (
+            <p className="text-sm text-red-500 mt-1">{emailError}</p>
+          )}
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
-            <textarea
-              id="message"
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full min-h-[100px] p-2 border rounded-md"
-              rows={4}
-            />
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone Number</Label>
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="+1 (555) 000-0000"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
+        <div className="space-y-2">
+          <Label htmlFor="company">Company</Label>
+          <Input
+            id="company"
+            name="company"
+            placeholder="Company Name"
+            value={formData.company}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="message">Message</Label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="How can we help you?"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+
+        <div className="flex justify-end">
           <Button
             type="submit"
-            className="w-full bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white"
-            disabled={isSubmitting || !!emailError}
+            disabled={isLoading || !!emailError}
+            className="bg-[#FF3D00] hover:bg-[#FF3D00]/90 text-white"
           >
-            {isSubmitting ? (
+            {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Submitting...
+                Sending...
               </>
             ) : (
-              'Submit'
+              'Send Message'
             )}
           </Button>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </Modal>
   );
 }

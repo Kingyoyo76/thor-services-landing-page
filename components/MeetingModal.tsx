@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Modal } from '@/components/ui/modal';
 
 interface MeetingModalProps {
   isOpen: boolean;
@@ -8,25 +8,23 @@ interface MeetingModalProps {
 }
 
 export default function MeetingModal({ isOpen, onClose }: MeetingModalProps) {
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-2xl h-[80vh] relative">
-        <Button
-          variant="ghost"
-          className="absolute top-2 right-2 z-50"
-          onClick={onClose}
-        >
-          ✕
-        </Button>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Schedule a Meeting"
+    >
+      <div className="h-[70vh] -m-6">
         <iframe
           src="https://meetings.hubspot.com/jhamdi?embed=true"
           frameBorder="0"
-          className="w-full h-full rounded-lg"
+          className="w-full h-full"
           title="Schedule a meeting"
+          onError={(e) => {
+            console.error('Meeting calendar failed to load:', e);
+          }}
         />
       </div>
-    </div>
+    </Modal>
   );
 }

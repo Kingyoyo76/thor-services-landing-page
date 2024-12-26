@@ -18,7 +18,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="text-lg sm:text-xl font-bold text-white flex items-center">
-            <span className="flex items-center">
+            <span className="flex items-center scale-75 sm:scale-100">
               <span className="flex items-center -ml-1">
                 <svg
                   viewBox="0 0 24 32"
@@ -73,8 +73,8 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#0B1221] border-t border-gray-800">
-          <div className="px-6 py-4 space-y-2">
+        <div className="md:hidden bg-[#0B1221] border-t border-gray-800 fixed w-full h-screen">
+          <div className="px-6 pt-4 pb-20 space-y-4 overflow-y-auto max-h-[calc(100vh-4rem)]">
             <NavigationMenu />
           </div>
         </div>

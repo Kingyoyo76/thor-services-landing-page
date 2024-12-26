@@ -2,13 +2,13 @@
 
 import Navigation from '@/components/Navigation'
 import HeroSection from '@/components/HeroSection'
-import ComprehensiveSolutionsSection from '@/components/ComprehensiveSolutionsSection'
+import TransformSection from '@/components/TransformSection'
 import ExpertiseSection from '@/components/ExpertiseSection'
 import StaffAugmentationSection from '@/components/StaffAugmentationSection'
 import TestimonialSection from '@/components/TestimonialSection'
-import TransformSection from '@/components/TransformSection'
 import Footer from '@/components/Footer'
 import BackToTop from '@/components/BackToTop'
+import FinalCTASection from '@/components/FinalCTASection'
 import { useEffect } from 'react'
 
 export default function Home() {
@@ -21,11 +21,11 @@ export default function Home() {
     <main className="min-h-screen">
       <Navigation />
       <HeroSection />
-      <ComprehensiveSolutionsSection />
+      <TransformSection />
       <ExpertiseSection />
       <StaffAugmentationSection />
       <TestimonialSection />
-      <TransformSection />
+      <FinalCTASection />
       <Footer />
       <BackToTop />
     </main>
