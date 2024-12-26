@@ -24,13 +24,13 @@ export default function HeroSection() {
   const CurrentIcon = phrases[currentPhrase].icon;
 
   const handleIgniteClick = () => {
-    console.log("Ignite clicked");
-    // Add your logic here
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleMeetClick = () => {
-    console.log("Meet clicked");
-    // Add your logic here
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
