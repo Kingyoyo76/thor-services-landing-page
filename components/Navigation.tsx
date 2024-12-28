@@ -5,64 +5,42 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import NavigationMenu from './NavigationMenu'
+import Image from 'next/image'
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
+    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : 'auto'
   }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0B1221] shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-lg sm:text-xl font-bold text-white flex items-center">
-            <span className="flex items-center scale-75 sm:scale-100">
-              <span className="flex items-center -ml-1">
-                <svg
-                  viewBox="0 0 24 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-8 text-[#FF3D00]"
-                >
-                  <path
-                    d="M6 8h12v4H6z M11 12v16 M11 16h2v2h-2z M11 20h2v2h-2z M11 24h2v2h-2z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span className="-ml-1">HOR</span>
-              </span>
-              <span className="flex items-center ml-4 mr-2">
-                <span className="-mr-1">I</span>
-                <svg
-                  viewBox="0 0 24 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-8 text-[#FF3D00]"
-                >
-                  <path
-                    d="M6 8h12v4H6z M11 12v16 M11 16h2v2h-2z M11 20h2v2h-2z M11 24h2v2h-2z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <span>SERVICES</span>
-            </span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logos/thor-logo.png"
+              alt="Thor Services Logo"
+              width={120}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
 
-          <div className="hidden md:flex space-x-8">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
             <NavigationMenu />
           </div>
 
+          {/* Mobile Menu Button */}
           <Button
-            className="md:hidden text-white p-2"
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-white hover:bg-white/10"
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
           >
@@ -71,10 +49,10 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#0B1221] border-t border-gray-800 fixed w-full h-screen">
-          <div className="px-6 pt-4 pb-20 space-y-4 overflow-y-auto max-h-[calc(100vh-4rem)]">
+        <div className="md:hidden fixed inset-0 top-16 bg-[#0B1221]/95 backdrop-blur-sm z-50">
+          <div className="px-4 py-6 space-y-6">
             <NavigationMenu />
           </div>
         </div>

@@ -25,12 +25,14 @@ const NavigationMenu = () => {
   ]
 
   return (
-    <div className="md:flex md:space-x-8">
+    <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
       {menuItems.map((item) => (
         <button
           key={item.id}
           onClick={() => scrollToSection(item.id)}
-          className="block w-full md:w-auto text-left md:text-center text-white hover:text-[#FF3D00] transition-colors font-bold py-2 md:py-0"
+          className="text-white/90 hover:text-[#FF3D00] transition-colors font-medium py-3 md:py-0
+                     text-base md:text-sm tracking-wide uppercase
+                     flex items-center space-x-2 w-full md:w-auto"
         >
           {item.label}
         </button>

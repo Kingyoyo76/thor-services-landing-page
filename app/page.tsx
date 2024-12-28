@@ -21,11 +21,19 @@ export default function Home() {
     <main className="min-h-screen">
       <Navigation />
       <HeroSection />
-      <TransformSection />
-      <ExpertiseSection />
-      <StaffAugmentationSection />
+      <div id="services">
+        <TransformSection />
+      </div>
+      <div id="expertise">
+        <ExpertiseSection />
+      </div>
+      <div id="technologies">
+        <StaffAugmentationSection />
+      </div>
       <TestimonialSection />
-      <FinalCTASection />
+      <div id="final-cta">
+        <FinalCTASection />
+      </div>
       <Footer />
       <BackToTop />
     </main>
