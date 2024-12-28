@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cyber-grid {
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(255, 61, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 61, 0, 0.1) 1px, transparent 1px);
+  width: 100%;
+  height: 100%;
+}

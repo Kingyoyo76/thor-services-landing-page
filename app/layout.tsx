@@ -1,12 +1,14 @@
+'use client'
+
 import '@/styles/globals.css'
 import Script from 'next/script'
-import { Inter } from 'next/font/google'
+import { Orbitron } from 'next/font/google'
 import { ModalProvider } from '@/components/providers/modal-provider'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { Toaster } from 'sonner'
 import Navbar from '@/components/Navbar'
 
-const inter = Inter({ subsets: ['latin'] })
+const orbitron = Orbitron({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Thor Services - Transform IT Complexity into Results-Driven Simplicity',
@@ -19,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.className}`}>
+    <html lang="en" className={`scroll-smooth ${orbitron.className}`}>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ErrorBoundary>
           <Navbar />

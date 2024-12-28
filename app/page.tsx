@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import HeroSection from '@/components/HeroSection'
 import TransformSection from '@/components/TransformSection'
@@ -9,7 +10,6 @@ import TestimonialSection from '@/components/TestimonialSection'
 import Footer from '@/components/Footer'
 import BackToTop from '@/components/BackToTop'
 import FinalCTASection from '@/components/FinalCTASection'
-import { useEffect } from 'react'
 
 export default function Home() {
   useEffect(() => {
@@ -18,24 +18,24 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen">
+    <div className="flex min-h-screen flex-col bg-[#0B1221]">
       <Navigation />
       <HeroSection />
-      <div id="services">
+      <div id="services" className="w-full">
         <TransformSection />
       </div>
-      <div id="expertise">
+      <div id="expertise" className="w-full">
         <ExpertiseSection />
       </div>
-      <div id="technologies">
+      <div id="technologies" className="w-full">
         <StaffAugmentationSection />
       </div>
       <TestimonialSection />
-      <div id="final-cta">
+      <div id="final-cta" className="w-full">
         <FinalCTASection />
       </div>
       <Footer />
       <BackToTop />
-    </main>
+    </div>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 
-const NavigationMenu = () => {
+const NavigationMenu = ({ onItemClick }: { onItemClick?: () => void }) => {
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
@@ -14,8 +14,13 @@ const NavigationMenu = () => {
         top: offsetPosition,
         behavior: 'smooth'
       })
+      
+      // Call the callback if provided (for mobile menu)
+      if (onItemClick) {
+        onItemClick()
+      }
     }
-  }, [])
+  }, [onItemClick])
 
   const menuItems = [
     { id: 'services', label: 'Services' },
@@ -25,14 +30,12 @@ const NavigationMenu = () => {
   ]
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
+    <div className="md:flex md:space-x-8">
       {menuItems.map((item) => (
         <button
           key={item.id}
           onClick={() => scrollToSection(item.id)}
-          className="text-white/90 hover:text-[#FF3D00] transition-colors font-medium py-3 md:py-0
-                     text-base md:text-sm tracking-wide uppercase
-                     flex items-center space-x-2 w-full md:w-auto"
+          className="block w-full md:w-auto text-left md:text-center text-white hover:text-[#FF3D00] transition-colors font-bold py-2 md:py-0"
         >
           {item.label}
         </button>

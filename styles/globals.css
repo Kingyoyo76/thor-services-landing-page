@@ -190,6 +190,15 @@
   100% { transform: translateY(0px); }
 }
 
+@keyframes grid {
+  0% {
+    transform: perspective(1000px) rotateX(60deg) translateY(0);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(60deg) translateY(50px);
+  }
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
